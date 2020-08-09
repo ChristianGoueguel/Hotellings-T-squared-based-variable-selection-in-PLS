@@ -16,8 +16,8 @@ train_fit <- trainControl(method = "repeatedcv",
 
 # Trainning
 set.seed(0121)
-pls_fit <- train(x = XTrain, 
-                 y = yTrain,
+pls_fit <- train(x = X, 
+                 y = y,
                  method = "pls",
                  preProcess = c("center"),
                  metric = "RMSE", 
@@ -31,7 +31,6 @@ pls_fit %>%
          highlight = TRUE,
          output = "layered"
         ) +
-  theme_bw(base_size = 14) +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
 # Model's performance
@@ -40,7 +39,7 @@ tibble(`Figure of merit` = c("RMSE","Rsquared","MAE"),
       ) %>% print()
 
 tmp_cal <- tibble(id = as.factor(spec_avg$spectra),
-                  reference = yTrain,
+                  reference = y,
                   predicted = predict(pls_fit),
                   residual = reference - predicted,
                   residual_std = residual / sd(residual),
@@ -91,7 +90,7 @@ tmp_dist <- tibble(id = as.factor(spec_avg$spectra),
                   )
 
 # Calculation of the T-squared upper limit (UCL)
-Tsq_upperlimit <- (ncomp * (ncol(XTrain) - 1)) / (ncol(XTrain) - ncomp) * qf(p = .9975, df1 = ncomp, df2 = ncol(XTrain) - ncomp)
+Tsq_upperlimit <- (ncomp * (ncol(X) - 1)) / (ncol(X) - ncomp) * qf(p = .9975, df1 = ncomp, df2 = ncol(X) - ncomp)
 
 # Q residuals vs. Hotelling T-squared plot
 tmp_dist %>%
