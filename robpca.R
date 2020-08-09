@@ -11,7 +11,8 @@ pca_mod <- spec_avg %>%
          h = NULL,
          mcd = FALSE,
          ndir = 5000,
-         skew = TRUE)
+         skew = TRUE
+        )
 
 # Extracting explained variance
 j = length(pca_mod$eigenvalues)
@@ -21,7 +22,7 @@ for (i in 1:j) {
 }
 
 # Scree plot
-tibble(components = seq(1, j), variance = t(pca_eig*100)) %>%
+tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
   ggplot() +
   geom_col(aes(x = components, y = variance), fill = "#17456E", colour = "black", position = "dodge") +
   geom_text(aes(x = components, y = variance, label = paste0(signif(variance, digits = 3), "%")), nudge_x = 0.1, nudge_y = 4) +
