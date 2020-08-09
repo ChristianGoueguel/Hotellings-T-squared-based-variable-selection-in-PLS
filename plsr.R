@@ -2,6 +2,9 @@
 #         PLS-R modeling             #
 ######################################
 
+# Library
+library(caret)
+
 # Training parameters
 train_fit <- trainControl(method = "repeatedcv",
                           number = 7,
