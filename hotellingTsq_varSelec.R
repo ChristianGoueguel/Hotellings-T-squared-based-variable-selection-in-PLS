@@ -15,3 +15,4 @@ Tsq_pls <- plsVarSel::T2_pls(ytr = pls_format$Ca[1:n],
                              alpha = 0.01)
 
 X %<>% select(Tsq_pls$mv[[1]])
+source("plsr.R")
