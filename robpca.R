@@ -2,23 +2,26 @@
 # ROBPCA modeling
 ######################################
 
+
 pca_mod <- spec_avg %>%
   select(-spectra, -Ca) %>%
   as.matrix() %>%
-  rospca::robpca(k = 0,
-                 kmax = 5,
-                 alpha = 0.75,
-                 h = NULL,
-                 mcd = FALSE,
-                 ndir = 5000,
-                 skew = TRUE)
+  robpca(k = 0,
+         kmax = 5,
+         alpha = 0.75,
+         h = NULL,
+         mcd = FALSE,
+         ndir = 5000,
+         skew = TRUE)
 
+# Extracting explained variance
 j = length(pca_mod$eigenvalues)
 pca_eig <- matrix(nrow = 1, ncol = j)
 for (i in 1:j) {
   pca_eig[, i] <- pca_mod[["eigenvalues"]][i] / sum(pca_mod[["eigenvalues"]])
 }
 
+# Scree plot
 tibble(components = seq(1, j), variance = t(pca_eig*100)) %>%
   ggplot() +
   geom_col(aes(x = components, y = variance), fill = "#17456E", colour = "black", position = "dodge") +
@@ -26,6 +29,7 @@ tibble(components = seq(1, j), variance = t(pca_eig*100)) %>%
   ylim(0, 105) +
   labs(title = "Scree", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance")
 
+# Scores scatter plot
 spec_avg %>%
   select(spectra, Ca) %>%
   cbind(., pca_mod[["scores"]]) %>%
@@ -43,7 +47,7 @@ spec_avg %>%
   theme_bw(base_size = 14, base_line_size = base_size / 22, base_rect_size = base_size / 15) +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
-# PCA outlier map
+# Outlier map
 tbl_outlier <-
   spec_avg %>%
   select(spectra, Ca) %>%
