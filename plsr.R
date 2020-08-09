@@ -46,6 +46,10 @@ tmp_cal <- tibble(id = as.factor(spec_avg$spectra),
                   out = abs(residual) > quantile(abs(residual), .9975)
                  )
 
+# Computing percent error
+pct_mape <- mape(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
+pct_bias <- percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
+
 # Observed vs. predicted plot
 tmp_cal %>%
   ggplot(aes(x = predicted, y = reference, colour = out, label = id)) +
