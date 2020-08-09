@@ -1,5 +1,5 @@
 #########################################
-# Hotelling-T² based variable selection
+# Hotelling-T² based variable selection #
 #########################################
 
 library(plsVarSel)
