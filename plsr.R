@@ -47,8 +47,8 @@ tmp_cal <- tibble(id = as.factor(spec_avg$spectra),
                  )
 
 # Computing percent error
-pct_mape <- mape(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
-pct_bias <- percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
+pct_mape <- Metrics::mape(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
+pct_bias <- Metrics::percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
 
 # Observed vs. predicted plot
 tmp_cal %>%
