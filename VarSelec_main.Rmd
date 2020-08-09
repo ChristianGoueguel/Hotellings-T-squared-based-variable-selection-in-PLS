@@ -1,0 +1,91 @@
+---
+title: "Hotelling-T² based Variable Selection in Partial Least Square (PLS)"
+output: html_notebook
+---
+
+# Libraries
+```{r}
+library(readr)
+library(tidyverse)
+library(rospca)
+library(caret)
+```
+
+# Data
+```{r}
+Fourrage1 <- read_csv("Fourrage1.csv")
+Fourrage2 <- read_csv("Fourrage2.csv")
+```
+
+```{r}
+Fourrage1 %<>% rename(spectra = No_spectre,
+                      points = No_replique,
+                      Ca = `FRG - Calcium total - {Calcination-ICP} - [%]`)
+```
+
+```{r}
+Fourrage2 %<>% rename(spectra = No_spectre,
+                      points = No_replique,
+                      Ca = `FRG - Calcium total - {Calcination-ICP} - [%]`)
+```
+
+```{r}
+dat1 <- Fourrage1[, -c(1:4, 7, 8, 10:23)]
+dat2 <- Fourrage2[, -c(1:4, 7, 8, 10:23)] 
+```
+
+# Missing values
+```{r}
+mydata <- bind_rows(dat1, dat2) %>%
+  na_if(0) %>%
+  drop_na(Ca)
+```
+
+```{r}
+colnames(mydata)[colSums(is.na(mydata)) > 0]
+mydata %<>% select(-`822.1848576_`, -`822.1848576`)
+```
+
+# Prepocessing the spectral data
+```{r}
+spec_avg <- mydata %>%
+  select(-spectra, -points) %>%
+  aggregate(by = list(mydata$spectra), FUN = mean) %>%
+  rename(spectra = Group.1) %>%
+  as_tibble()
+```
+
+```{r}
+spec_avg %>%
+  select(1, 1:25) %>%
+  arrange(spectra) %>%
+  glimpse()
+```
+
+# Removing outliers 
+```{r}
+spec_avg %<>% filter(!spectra %in% c("99379", "99387", "1103330"))
+```
+
+# ROBPCA
+```{r}
+source("robpca.R")
+```
+
+# PLS regression
+Performed on the full dataset.
+```{r}
+source("plsr.R")
+```
+
+# Hotelling T-squared variable selection
+```{r}
+source("hotellingTsq_varSelec.R")
+```
+
+PLS regression performed on the selected variables.
+```{r}
+source("plsr.R")
+```
+
+
