@@ -48,8 +48,7 @@ tmp_cal <- tibble(id = as.factor(spec_avg$spectra),
                  )
 
 # Observed vs. predicted plot
-cal_plot <- 
-  tmp_cal %>%
+tmp_cal %>%
   ggplot(aes(x = predicted, y = reference, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_abline(slope = 1, color = "black") +
@@ -61,8 +60,7 @@ cal_plot <-
 ggExtra::ggMarginal(cal_plot, margins = "both", type = "histogram", col = "grey", fill = "orange")
 
 # Residual plot
-residCal_plot <- 
-  tmp_cal %>% 
+tmp_cal %>% 
   ggplot(aes(x = predicted, y = residual_std, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
