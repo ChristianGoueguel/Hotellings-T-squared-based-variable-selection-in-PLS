@@ -20,7 +20,7 @@ ggplot2::theme_bw(base_size = base_size,
 
 # 2 Data
 ```{r}
-mydata <- read_csv("dataLIBS.csv")
+mydata <- read_csv("TrainDataLIBS.csv")
 mydata %<>% rename(spectra = No_spectra,
                    points = No_rep,
                    Ca = `FRG - Calcium - {Calcination-ICP} - [%]`)
