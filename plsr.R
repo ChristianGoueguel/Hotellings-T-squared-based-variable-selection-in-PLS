@@ -51,7 +51,7 @@ pct_mape <- Metrics::mape(actual = tmp_cal$reference, predicted = tmp_cal$predic
 pct_bias <- Metrics::percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
 
 # Observed vs. predicted plot
-tmp_cal %>%
+cal_plot <- tmp_cal %>%
   ggplot(aes(x = predicted, y = reference, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_abline(slope = 1, color = "black") +
@@ -63,7 +63,7 @@ tmp_cal %>%
 ggExtra::ggMarginal(cal_plot, margins = "both", type = "histogram", col = "grey", fill = "orange")
 
 # Residual plot
-tmp_cal %>% 
+residCal_plot <- tmp_cal %>% 
   ggplot(aes(x = predicted, y = residual_std, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
