@@ -21,9 +21,6 @@ ggplot2::theme_bw(base_size = base_size,
 # Data
 ```{r}
 mydata <- read_csv("dataLIBS.csv")
-```
-
-```{r}
 mydata %<>% rename(spectra = No_spectra,
                    points = No_rep,
                    Ca = `FRG - Calcium - {Calcination-ICP} - [%]`)
@@ -34,9 +31,7 @@ mydata %<>% rename(spectra = No_spectra,
 mydata %<>%
   na_if(0) %>%
   drop_na(Ca)
-```
-
-```{r}
+  
 missing_lambda <- colnames(mydata)[colSums(is.na(mydata)) > 0]
 mydata %<>% select(-all_of(missing_lambda))
 ```
@@ -48,9 +43,7 @@ spec_avg <- mydata %>%
   aggregate(by = list(mydata$spectra), FUN = mean) %>%
   rename(spectra = Group.1) %>%
   as_tibble()
-```
-Viewing the first 25 rows
-```{r}
+  
 spec_avg %>%
   select(1, 1:25) %>%
   arrange(spectra) %>%
@@ -62,12 +55,18 @@ spec_avg %>%
 # spec_avg %<>% filter(!spectra %in% c("99379", "99387", "1103330"))
 ```
 
-# ROBPCA modeling
+# Modeling 
+```{r}
+X <- spec_avg %>% select(-spectra, -Ca)
+y <- spec_avg$Ca %>% as.numeric()
+```
+
+# ROBPCA
 ```{r}
 source("robpca.R")
 ```
 
-# PLS-R modeling
+# PLS-R
 Performed on the full dataset.
 ```{r}
 source("plsr.R")
