@@ -1,7 +1,6 @@
 ######################################
-# ROBPCA modeling
+#         ROBPCA modeling            #
 ######################################
-
 
 pca_mod <- spec_avg %>%
   select(-spectra, -Ca) %>%
@@ -55,7 +54,8 @@ tbl_outlier <-
          od = pca_mod[["od"]], 
          flag_sd = pca_mod$flag.sd, 
          flag_od = pca_mod$flag.od, 
-         flag_all = pca_mod$flag.all)
+         flag_all = pca_mod$flag.all
+        )
 
 cutoff_sd <- pca_mod[["cutoff.sd"]]
 cutoff_od <- pca_mod[["cutoff.od"]]
