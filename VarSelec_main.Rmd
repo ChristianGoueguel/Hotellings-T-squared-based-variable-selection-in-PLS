@@ -38,7 +38,7 @@ mydata %<>%
 
 ```{r}
 missing_lambda <- colnames(mydata)[colSums(is.na(mydata)) > 0]
-mydata %<>% select(-missing_lambda)
+mydata %<>% select(-all_of(missing_lambda))
 ```
 
 # Prepocessing the spectral data
