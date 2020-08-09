@@ -2,11 +2,13 @@
 # Hotelling-T² based variable selection #
 #########################################
 
-library(plsVarSel)
+# Data frame
+pls_format <- data.frame(Ca = I(as.matrix(y)), LIBS = I(as.matrix(X)))
 
-pls_format <- data.frame(Ca = I(as.matrix(yTrain)), LIBS = I(as.matrix(XTrain)))
+# Data splitting
 
-Tsq_pls <- T2_pls(ytr = pls_format$Ca[1:233], 
+
+Tsq_pls <- plsVarSel::T2_pls(ytr = pls_format$Ca[1:233], 
                   Xtr = pls_format$LIBS[1:233, ], 
                   yts = pls_format$Ca[-(1:233)], 
                   Xts = pls_format$LIBS[-(1:233), ], 
@@ -30,7 +32,5 @@ pls_fit <- train(x = XTrain_var,
                  metric = "RMSE", 
                  trControl = train_fit,
                  tuneLength = 15
-)
+                )
 
-library(Metrics)
-percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted)
