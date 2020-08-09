@@ -8,6 +8,6 @@ One of the most common challenge encountered in the modeling of spectroscopic da
 
 For illustrative purposes, let's consider a regression problem for which the relation between the response variable **y** (*n* × 1) and the predictor matrix **X** (*n* × *p*) is assumed to be explained by the linear model **_y_** = ***β*** **X**, where ***β*** (*p* × 1) is the regression coefficients. Our objective is to find some columns subsets of **X** with satisfactorily predictive power for **_y_**, using Hotelling-T² based variable selection.
 
-
+![plsr calibration plot with variable selection ouliers removed](https://user-images.githubusercontent.com/59129468/89723760-5b7fa500-d9c8-11ea-99d7-a55dccd2d83d.png)
 
 https://towardsdatascience.com/hotelling-t²-based-variable-selection-in-partial-least-square-pls-165880272363
