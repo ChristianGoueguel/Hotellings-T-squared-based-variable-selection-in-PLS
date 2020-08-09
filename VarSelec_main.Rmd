@@ -7,8 +7,6 @@ output: html_notebook
 ```{r}
 library(readr)
 library(tidyverse)
-library(rospca)
-library(caret)
 
 base_size <- 14
 ggplot2::theme_bw(base_size = base_size,
