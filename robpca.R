@@ -2,17 +2,18 @@
 #         ROBPCA modeling            #
 ######################################
 
+# Model fitting
 pca_mod <- spec_avg %>%
   select(-spectra, -Ca) %>%
   as.matrix() %>%
-  robpca(k = 0,
-         kmax = 5,
-         alpha = 0.75,
-         h = NULL,
-         mcd = FALSE,
-         ndir = 5000,
-         skew = TRUE
-        )
+  rospca::robpca(k = 0,
+                 kmax = 5,
+                 alpha = 0.75,
+                 h = NULL,
+                 mcd = FALSE,
+                 ndir = 5000,
+                 skew = TRUE
+                )
 
 # Extracting explained variance
 j = length(pca_mod$eigenvalues)
