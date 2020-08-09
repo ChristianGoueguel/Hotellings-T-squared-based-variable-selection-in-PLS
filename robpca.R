@@ -11,7 +11,8 @@ pca_mod <- spec_avg %>%
                  h = NULL,
                  mcd = FALSE,
                  ndir = 5000,
-                 skew = TRUE)
+                 skew = TRUE
+                )
 
 j = length(pca_mod$eigenvalues)
 pca_eig <- matrix(nrow = 1, ncol = j)
@@ -51,7 +52,8 @@ tbl_outlier <-
          od = pca_mod[["od"]], 
          flag_sd = pca_mod$flag.sd, 
          flag_od = pca_mod$flag.od, 
-         flag_all = pca_mod$flag.all)
+         flag_all = pca_mod$flag.all
+        )
 
 cutoff_sd <- pca_mod[["cutoff.sd"]]
 cutoff_od <- pca_mod[["cutoff.od"]]
