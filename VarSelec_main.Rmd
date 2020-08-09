@@ -6,6 +6,7 @@ output: html_notebook
 # 1 Libraries
 ```{r}
 library(readr)
+library(magrittr)
 library(tidyverse)
 
 base_size <- 14
