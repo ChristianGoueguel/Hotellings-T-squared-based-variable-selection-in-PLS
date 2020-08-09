@@ -26,8 +26,10 @@ tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
   ggplot() +
   geom_col(aes(x = components, y = variance), fill = "#17456E", colour = "black", position = "dodge") +
   geom_text(aes(x = components, y = variance, label = paste0(signif(variance, digits = 3), "%")), nudge_x = 0.1, nudge_y = 4) +
+  geom_line(aes(x = components, y = variance), colour = "red") +
+  geom_point(aes(x = components, y = variance), colour = "red") +
   ylim(0, 105) +
-  labs(title = "Scree", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance")
+  labs(title = "Scree", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance Explained")
 
 # Scores scatter plot
 spec_avg %>%
@@ -47,20 +49,14 @@ spec_avg %>%
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
 # Outlier map
-tbl_outlier <-
-  spec_avg %>%
+tbl_out <- spec_avg %>%
   select(spectra, Ca) %>%
-  tibble(sd = pca_mod[["sd"]], 
-         od = pca_mod[["od"]], 
-         flag_sd = pca_mod$flag.sd, 
-         flag_od = pca_mod$flag.od, 
-         flag_all = pca_mod$flag.all
-        )
+  tibble(sd = pca_mod[["sd"]], od = pca_mod[["od"]], flag_sd = pca_mod$flag.sd, flag_od = pca_mod$flag.od, flag_all = pca_mod$flag.all)
 
 cutoff_sd <- pca_mod[["cutoff.sd"]]
 cutoff_od <- pca_mod[["cutoff.od"]]
 
-tbl_outlier %>% 
+tbl_out %>% 
   ggplot(aes(x = sd, y = od, fill = Ca)) +
   geom_point(size = 3, alpha = 1, shape = 21) +
   geom_hline(yintercept = cutoff_od, linetype = "dashed", color = "black", size = .5) +
