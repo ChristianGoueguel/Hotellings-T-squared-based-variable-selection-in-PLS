@@ -54,7 +54,7 @@ tmp_cal %>%
   geom_abline(slope = 1, color = "black") +
   geom_smooth(method = "lm", color = "red", linetype = "dashed",size = .5, fill = "lightblue", se = TRUE, fullrange = FALSE, level = .95) +
   scale_color_viridis_d(end = .3, direction = 1) +
-  #ggrepel::geom_label_repel(data = filter(tmp_cal, out == 1), show.legend = FALSE) +
+  ggrepel::geom_label_repel(data = filter(tmp_cal, out == 1), show.legend = FALSE) +
   labs(x = "Predicted response", y = "Observed response") +
   theme(legend.position = "none", axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 ggExtra::ggMarginal(cal_plot, margins = "both", type = "histogram", col = "grey", fill = "orange")
