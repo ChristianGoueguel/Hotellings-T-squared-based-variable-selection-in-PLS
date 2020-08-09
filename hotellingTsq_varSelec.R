@@ -3,34 +3,15 @@
 #########################################
 
 # Data frame
-pls_format <- data.frame(Ca = I(as.matrix(y)), LIBS = I(as.matrix(X)))
+pls_format <- data.frame(Ca = I(as.matrix(y)), spec = I(as.matrix(X)))
 
-# Data splitting
+# T-squared PLS
+n <- nrow(X)/2
+Tsq_pls <- plsVarSel::T2_pls(ytr = pls_format$Ca[1:n], 
+                             Xtr = pls_format$spec[1:n, ], 
+                             yts = pls_format$Ca[-(1:n)], 
+                             Xts = pls_format$spec[-(1:n), ], 
+                             ncomp = ncomp, 
+                             alpha = 0.01)
 
-
-Tsq_pls <- plsVarSel::T2_pls(ytr = pls_format$Ca[1:233], 
-                  Xtr = pls_format$LIBS[1:233, ], 
-                  yts = pls_format$Ca[-(1:233)], 
-                  Xts = pls_format$LIBS[-(1:233), ], 
-                  ncomp = 12, 
-                  alpha = 0.01)
-
-matplot(t(pls_format$LIBS), type = 'l', col=1, ylab='intensity')
-
-points(Tsq_pls$mv[[1]], colMeans(pls_format$LIBS)[Tsq_pls$mv[[1]]], col=2, pch='x')
-
-points(Tsq_pls$mv[[2]], colMeans(pls_format$LIBS)[Tsq_pls$mv[[2]]], col=3, pch='o')
-
-
-XTrain_var <- XTrain %>% select(toto[[1]])
-
-set.seed(0101)
-pls_fit <- train(x = XTrain_var, 
-                 y = yTrain,
-                 method = "pls",
-                 preProcess = c("center"),
-                 metric = "RMSE", 
-                 trControl = train_fit,
-                 tuneLength = 15
-                )
-
+X %<>% select(Tsq_pls$mv[[1]])
