@@ -2,7 +2,7 @@
 #         PLS-R modeling             #
 ######################################
 
-# Trainning parameters
+# Training parameters
 train_fit <- trainControl(method = "repeatedcv",
                           number = 7,
                           repeats = 5,
@@ -14,7 +14,7 @@ train_fit <- trainControl(method = "repeatedcv",
                           allowParallel = TRUE
                          )
 
-# Trainning
+# Training
 set.seed(0121)
 pls_fit <- train(x = X, 
                  y = y,
@@ -22,7 +22,7 @@ pls_fit <- train(x = X,
                  preProcess = c("center"),
                  metric = "RMSE", 
                  trControl = train_fit,
-                 tuneLength = 15
+                 tuneLength = 20
                 )
 pls_fit %>%
   ggplot(data = .,
@@ -33,7 +33,7 @@ pls_fit %>%
         ) +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
-# Model's performance
+# Training model performance
 tibble(`Figure of merit` = c("RMSE","Rsquared","MAE"), 
        Calibration = c(getTrainPerf(pls_fit)[[1]], getTrainPerf(pls_fit)[[2]], getTrainPerf(pls_fit)[[3]])
       ) %>% print()
