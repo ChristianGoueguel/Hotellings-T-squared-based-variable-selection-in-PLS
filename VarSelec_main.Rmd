@@ -56,7 +56,7 @@ spec_avg %>%
 ```
 
 # 3 Modeling 
-```{r}
+```{r}  
 X <- spec_avg %>% select(-spectra, -Ca)
 y <- spec_avg$Ca %>% as.numeric()
 ```
