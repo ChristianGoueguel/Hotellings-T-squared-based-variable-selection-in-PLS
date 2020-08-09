@@ -9,41 +9,36 @@ library(readr)
 library(tidyverse)
 library(rospca)
 library(caret)
+
+base_size <- 14
+ggplot2::theme_bw(base_size = base_size,
+         base_line_size = base_size / 22,
+         base_rect_size = base_size / 15
+         ) %>% 
+  theme_set()
 ```
 
 # Data
 ```{r}
-Fourrage1 <- read_csv("Fourrage1.csv")
-Fourrage2 <- read_csv("Fourrage2.csv")
+mydata <- read_csv("dataLIBS.csv")
 ```
 
 ```{r}
-Fourrage1 %<>% rename(spectra = No_spectre,
-                      points = No_replique,
-                      Ca = `FRG - Calcium total - {Calcination-ICP} - [%]`)
-```
-
-```{r}
-Fourrage2 %<>% rename(spectra = No_spectre,
-                      points = No_replique,
-                      Ca = `FRG - Calcium total - {Calcination-ICP} - [%]`)
-```
-
-```{r}
-dat1 <- Fourrage1[, -c(1:4, 7, 8, 10:23)]
-dat2 <- Fourrage2[, -c(1:4, 7, 8, 10:23)] 
+mydata %<>% rename(spectra = No_spectra,
+                   points = No_rep,
+                   Ca = `FRG - Calcium - {Calcination-ICP} - [%]`)
 ```
 
 # Missing values
 ```{r}
-mydata <- bind_rows(dat1, dat2) %>%
+mydata %<>%
   na_if(0) %>%
   drop_na(Ca)
 ```
 
 ```{r}
-colnames(mydata)[colSums(is.na(mydata)) > 0]
-mydata %<>% select(-`822.1848576_`, -`822.1848576`)
+missing_lambda <- colnames(mydata)[colSums(is.na(mydata)) > 0]
+mydata %<>% select(-missing_lambda)
 ```
 
 # Prepocessing the spectral data
@@ -54,7 +49,7 @@ spec_avg <- mydata %>%
   rename(spectra = Group.1) %>%
   as_tibble()
 ```
-
+Viewing the first 25 rows
 ```{r}
 spec_avg %>%
   select(1, 1:25) %>%
@@ -62,17 +57,17 @@ spec_avg %>%
   glimpse()
 ```
 
-# Removing outliers 
+# Removing observations flagged as outliers 
 ```{r}
-spec_avg %<>% filter(!spectra %in% c("99379", "99387", "1103330"))
+# spec_avg %<>% filter(!spectra %in% c("99379", "99387", "1103330"))
 ```
 
-# ROBPCA
+# ROBPCA modeling
 ```{r}
 source("robpca.R")
 ```
 
-# PLS regression
+# PLS-R modeling
 Performed on the full dataset.
 ```{r}
 source("plsr.R")
@@ -82,10 +77,7 @@ source("plsr.R")
 ```{r}
 source("hotellingTsq_varSelec.R")
 ```
-
 PLS regression performed on the selected variables.
 ```{r}
 source("plsr.R")
 ```
-
-
