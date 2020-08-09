@@ -44,7 +44,6 @@ spec_avg %>%
   annotate("text", x = -.4e5, y = 63000, label = "95% conf. level", colour = "darkred", angle = 17) +
   annotate("text", x = -.5e5, y = 88000, label = "99% conf. level", colour = "darkgreen", angle = 15) +
   labs(x = "t1 [59.6%]", y = "t2 [24.8%]", fill = "Ca (%)") +
-  theme_bw(base_size = 14) +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
 # Outlier map
@@ -68,7 +67,6 @@ tbl_outlier %>%
   geom_vline(xintercept = cutoff_sd, linetype = "dashed", color = "black", size = .5) +
   geom_rug(stat = "identity", size = 0.3, alpha = 1/2, colour = "#08306b", position = "jitter") +
   labs(x = "Score distance (4 PCs)", y = "Orthogonal distance", fill = "Ca (%)") +
-  theme_bw(base_size = 14) +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
 
