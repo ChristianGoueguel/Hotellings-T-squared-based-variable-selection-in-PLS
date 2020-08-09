@@ -29,7 +29,7 @@ tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
   geom_line(aes(x = components, y = variance), colour = "red") +
   geom_point(aes(x = components, y = variance), colour = "red") +
   ylim(0, 105) +
-  labs(title = "Scree", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance Explained")
+  labs(title = "Scree plot", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance Explained")
 
 # Scores scatter plot
 spec_avg %>%
