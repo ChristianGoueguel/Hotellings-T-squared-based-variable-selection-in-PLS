@@ -67,7 +67,6 @@ source("robpca.R")
 ```
 
 # PLS-R
-Performed on the full dataset.
 ```{r}
 source("plsr.R")
 ```
@@ -75,8 +74,4 @@ source("plsr.R")
 # Hotelling T-squared variable selection
 ```{r}
 source("hotellingTsq_varSelec.R")
-```
-PLS regression performed on the selected variables.
-```{r}
-source("plsr.R")
 ```
