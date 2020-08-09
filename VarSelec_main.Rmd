@@ -3,7 +3,7 @@ title: "Hotelling-T² based Variable Selection in Partial Least Square (PLS)"
 output: html_notebook
 ---
 
-# Libraries
+# 1 Libraries
 ```{r}
 library(readr)
 library(tidyverse)
@@ -18,7 +18,7 @@ ggplot2::theme_bw(base_size = base_size,
   theme_set()
 ```
 
-# Data
+# 2 Data
 ```{r}
 mydata <- read_csv("dataLIBS.csv")
 mydata %<>% rename(spectra = No_spectra,
@@ -26,7 +26,7 @@ mydata %<>% rename(spectra = No_spectra,
                    Ca = `FRG - Calcium - {Calcination-ICP} - [%]`)
 ```
 
-# Missing values
+## 2.1 Missing values
 ```{r}
 mydata %<>%
   na_if(0) %>%
@@ -36,7 +36,7 @@ missing_lambda <- colnames(mydata)[colSums(is.na(mydata)) > 0]
 mydata %<>% select(-all_of(missing_lambda))
 ```
 
-# Prepocessing the spectral data
+## 2.2 Prepocessing the spectral data
 ```{r}
 spec_avg <- mydata %>%
   select(-spectra, -points) %>%
@@ -50,28 +50,28 @@ spec_avg %>%
   glimpse()
 ```
 
-# Removing observations flagged as outliers 
+## 2.3 Removing observations flagged as outliers 
 ```{r}
 # spec_avg %<>% filter(!spectra %in% c("99379", "99387", "1103330"))
 ```
 
-# Modeling 
+# 3 Modeling 
 ```{r}
 X <- spec_avg %>% select(-spectra, -Ca)
 y <- spec_avg$Ca %>% as.numeric()
 ```
 
-# ROBPCA
+## 3.1 ROBPCA
 ```{r}
 source("robpca.R")
 ```
 
-# PLS-R
+## 3.2 PLS-R
 ```{r}
 source("plsr.R")
 ```
 
-# Hotelling T-squared variable selection
+## 3.3 Hotelling T-squared variable selection
 ```{r}
 source("hotellingTsq_varSelec.R")
 ```
