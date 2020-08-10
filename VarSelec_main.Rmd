@@ -5,6 +5,15 @@ date    : "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
 output: html_notebook
 ---
 
+# Chunk options
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      tidy = TRUE,
+                      message = FALSE,
+                      warning = FALSE
+                      )
+```
+
 # 1 Libraries
 ```{r}
 library(readr)
@@ -81,7 +90,7 @@ plot_3
 
 
 ## 3.2 PLS-R
-```{r message=FALSE, warning=FALSE}
+```{r}
 source("plsr.R")
 ```
 ### 3.2.1 hyperparameter optimization
@@ -107,7 +116,7 @@ plot_8
 
 
 ## 3.3 Hotelling T-squared variable selection
-```{r message=FALSE, warning=FALSE}
+```{r}
 source("hotellingTsq_varSelec.R")
 ```
 ### 3.3.1 hyperparameter optimization
