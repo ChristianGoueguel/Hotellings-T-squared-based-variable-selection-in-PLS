@@ -101,7 +101,7 @@ Err_matrix <- as_tibble(pls_fit$finalModel$residuals)
 # Computing Q residuals
 Q_residuals <- Err_matrix^2 %>% rowSums() %>% as_tibble()
 
-# Computing T-squarred statistic
+# Computing T-squared statistic
 Tsq_hotelling <- (t_scores / apply(t_scores, 1, sd))^2 %>% rowSums() %>% as_tibble()
 
 # Data frame
