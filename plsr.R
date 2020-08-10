@@ -24,7 +24,7 @@ pls_fit <- caret::train(x = X,
                         trControl = train_fit,
                         tuneLength = 20
                        )
-pls_fit %>%
+plot_4 <- pls_fit %>%
   ggplot(data = .,
          metric = "RMSE",
          plotType = "scatter",
@@ -45,7 +45,7 @@ learn_data <- bind_cols(y, X) %>%
                             metric = "RMSE",
                             trControl = train_fit
                             )
-learn_data %>%
+plot_5 <- learn_data %>%
   ggplot(aes(x = Training_Size, y = RMSE, color = Data)) +
   geom_smooth(method = loess, span = .8) +
   labs(x = "Training set size", y = "RMSE") +
@@ -69,7 +69,7 @@ pct_mape <- Metrics::mape(actual = tmp_cal$reference, predicted = tmp_cal$predic
 pct_bias <- Metrics::percent_bias(actual = tmp_cal$reference, predicted = tmp_cal$predicted) * 100
 
 # Observed vs. predicted plot
-cal_plot <- tmp_cal %>%
+plot_6 <- tmp_cal %>%
   ggplot(aes(x = predicted, y = reference, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_abline(slope = 1, color = "black") +
@@ -78,10 +78,10 @@ cal_plot <- tmp_cal %>%
   ggrepel::geom_label_repel(data = filter(tmp_cal, out == 1), show.legend = FALSE) +
   labs(x = "Predicted response", y = "Observed response") +
   theme(legend.position = "none", axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
-ggExtra::ggMarginal(cal_plot, margins = "both", type = "histogram", col = "grey", fill = "orange")
+ggExtra::ggMarginal(plot_6, margins = "both", type = "histogram", col = "grey", fill = "orange")
 
 # Residual plot
-residCal_plot <- tmp_cal %>% 
+plot_7 <- tmp_cal %>% 
   ggplot(aes(x = predicted, y = residual_std, colour = out, label = id)) +
   geom_point(size = 2, alpha = .7, show.legend = FALSE) +
   geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
@@ -91,7 +91,7 @@ residCal_plot <- tmp_cal %>%
   ggrepel::geom_label_repel(data = filter(tmp_cal, out == 1), show.legend = FALSE) +
   labs(x = "Predicted response", y = "Standardized residual") +
   theme(legend.position = "none", axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
-ggExtra::ggMarginal(residCal_plot, margins = "y", type = "histogram", col = "grey", fill = "orange")
+ggExtra::ggMarginal(plot_7, margins = "y", type = "histogram", col = "grey", fill = "orange")
 
 # Extracting data from the PLS model
 ncomp <- pls_fit$bestTune$ncomp
@@ -115,7 +115,7 @@ tmp_dist <- tibble(id = as.factor(spec_avg$spectra),
 Tsq_upperlimit <- (ncomp * (ncol(X) - 1)) / (ncol(X) - ncomp) * qf(p = .9975, df1 = ncomp, df2 = ncol(X) - ncomp)
 
 # Q residuals vs. Hotelling T-squared plot
-tmp_dist %>%
+plot_8 <- tmp_dist %>%
   ggplot(aes(x = Tsq, y = Q_resid, colour = out, label = id)) +
   geom_point(size = 2, alpha = .5, show.legend = FALSE) +
   geom_rug(color = "blue", alpha = .3) +
@@ -127,3 +127,5 @@ tmp_dist %>%
   scale_color_viridis_d(end = .4, direction = -1) +
   labs(x = "Hotelling's T-squared", y = "Q residuals") +
   theme(legend.position = "none", axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
+
+
