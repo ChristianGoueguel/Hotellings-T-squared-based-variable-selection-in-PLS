@@ -81,7 +81,7 @@ plot_3
 
 
 ## 3.2 PLS-R
-```{r}
+```{r message=FALSE, warning=FALSE}
 source("plsr.R")
 ```
 ### 3.2.1 hyperparameter training plot
@@ -107,7 +107,7 @@ plot_8
 
 
 ## 3.3 Hotelling T-squared variable selection
-```{r}
+```{r message=FALSE, warning=FALSE}
 source("hotellingTsq_varSelec.R")
 ```
 ### 3.3.1 hyperparameter training plot
