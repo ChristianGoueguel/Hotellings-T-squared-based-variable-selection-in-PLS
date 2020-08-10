@@ -23,7 +23,7 @@ for (i in 1:j) {
 }
 
 # Scree plot
-tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
+plot_1 <- tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
   ggplot() +
   geom_col(aes(x = components, y = variance), fill = "#17456E", colour = "black", position = "dodge") +
   geom_text(aes(x = components, y = variance, label = paste0(signif(variance, digits = 3), "%")), nudge_x = 0.1, nudge_y = 4) +
@@ -33,7 +33,7 @@ tibble(components = seq(1, j), variance = t(pca_eig * 100)) %>%
   labs(title = "Scree plot", subtitle = "Averaged spectra", x = "Principal Component", y = "Percent Variance Explained")
 
 # Scores scatter plot
-spec_avg %>%
+plot_2 <- spec_avg %>%
   select(spectra, Ca) %>%
   cbind(., pca_mod[["scores"]]) %>%
   as_tibble() %>% 
@@ -57,7 +57,7 @@ tbl_out <- spec_avg %>%
 cutoff_sd <- pca_mod[["cutoff.sd"]]
 cutoff_od <- pca_mod[["cutoff.od"]]
 
-tbl_out %>% 
+plot_3 <- tbl_out %>% 
   ggplot(aes(x = sd, y = od, fill = Ca)) +
   geom_point(size = 3, alpha = 1, shape = 21) +
   geom_hline(yintercept = cutoff_od, linetype = "dashed", color = "black", size = .5) +
