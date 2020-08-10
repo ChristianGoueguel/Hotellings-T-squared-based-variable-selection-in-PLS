@@ -37,7 +37,7 @@ plot_4 <- pls_fit %>%
 set.seed(101)
 learn_data <- bind_cols(y, X) %>%
   caret::learning_curve_dat(dat = .,
-                            outcome = "Ca",
+                            outcome = "y",
                             proportion = (1:10)/10,
                             test_prop = 1/4,
                             verbose = FALSE,
