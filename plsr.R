@@ -2,31 +2,28 @@
 #         PLS-R modeling             #
 ######################################
 
-# Library
-library(caret)
-
 # Training parameters
-train_fit <- trainControl(method = "repeatedcv",
-                          number = 7,
-                          repeats = 5,
-                          search = "grid",
-                          p = 0.8,
-                          verboseIter = FALSE,
-                          returnData = TRUE,
-                          returnResamp = "final",
-                          allowParallel = TRUE
-                         )
+train_fit <- caret::trainControl(method = "repeatedcv",
+                                 number = 7,
+                                 repeats = 5,
+                                 search = "grid",
+                                 p = 0.8,
+                                 verboseIter = FALSE,
+                                 returnData = TRUE,
+                                 returnResamp = "final",
+                                 allowParallel = TRUE
+                                 )
 
 # Training
-set.seed(0121)
-pls_fit <- train(x = X, 
-                 y = y,
-                 method = "pls",
-                 preProcess = c("center"),
-                 metric = "RMSE", 
-                 trControl = train_fit,
-                 tuneLength = 20
-                )
+set.seed(101)
+pls_fit <- caret::train(x = X,
+                        y = y,
+                        method = "pls",
+                        preProcess = c("center"),
+                        metric = "RMSE", 
+                        trControl = train_fit,
+                        tuneLength = 20
+                       )
 pls_fit %>%
   ggplot(data = .,
          metric = "RMSE",
@@ -34,6 +31,24 @@ pls_fit %>%
          highlight = TRUE,
          output = "layered"
         ) +
+  theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
+
+# Learning curves
+set.seed(101)
+learn_data <- bind_cols(y, X) %>%
+  caret::learning_curve_dat(dat = .,
+                            outcome = "Ca",
+                            proportion = (1:10)/10,
+                            test_prop = 1/4,
+                            verbose = FALSE,
+                            method = "pls",
+                            metric = "RMSE",
+                            trControl = train_fit
+                            )
+learn_data %>%
+  ggplot(aes(x = Training_Size, y = RMSE, color = Data)) +
+  geom_smooth(method = loess, span = .8) +
+  labs(x = "Training set size", y = "RMSE") +
   theme(axis.title.x = element_text(face = "bold"), axis.title.y = element_text(face = "bold"))
 
 # Training model performance
