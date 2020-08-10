@@ -84,7 +84,7 @@ plot_3
 ```{r message=FALSE, warning=FALSE}
 source("plsr.R")
 ```
-### 3.2.1 hyperparameter training plot
+### 3.2.1 hyperparameter optimization
 ```{r}
 plot_4
 ```
@@ -110,7 +110,7 @@ plot_8
 ```{r message=FALSE, warning=FALSE}
 source("hotellingTsq_varSelec.R")
 ```
-### 3.3.1 hyperparameter training plot
+### 3.3.1 hyperparameter optimization
 ```{r}
 plot_9
 ```
