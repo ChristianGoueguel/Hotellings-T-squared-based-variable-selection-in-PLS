@@ -101,7 +101,7 @@ Err_matrix <- as_tibble(pls_fit$finalModel$residuals)
 # Computing Q residuals
 Q_residuals <- Err_matrix^2 %>% rowSums() %>% as_tibble()
 
-# Computing T-squared statistic
+# Computing T-squared statistics
 Tsq_hotelling <- (t_scores / apply(t_scores, 1, sd))^2 %>% rowSums() %>% as_tibble()
 
 # Data frame
@@ -111,8 +111,8 @@ tmp_dist <- tibble(id = as.factor(spec_avg$spectra),
                    out = abs(Q_resid) > quantile(abs(Q_resid), .9975)
                   )
 
-# Calculation of the T-squared upper limit (UCL)
-Tsq_upperlimit <- (ncomp * (ncol(X) - 1)) / (ncol(X) - ncomp) * qf(p = .9975, df1 = ncomp, df2 = ncol(X) - ncomp)
+# Computing a cutoff value for the T-squared statistics
+Tsq_cutoff <- (ncomp * (ncol(X) - 1)) / (ncol(X) - ncomp) * qf(p = .9975, df1 = ncomp, df2 = ncol(X) - ncomp)
 
 # Q residuals vs. Hotelling T-squared plot
 plot_8 <- tmp_dist %>%
@@ -120,9 +120,9 @@ plot_8 <- tmp_dist %>%
   geom_point(size = 2, alpha = .5, show.legend = FALSE) +
   geom_rug(color = "blue", alpha = .3) +
   ggrepel::geom_label_repel(data = filter(tmp_dist, out == 1), show.legend = FALSE) +
-  # geom_point(data = filter(tmp_dist, Tsq >= Tsq_upperlimit), aes(x = Tsq, y = Q_resid, colour = "red", label = id)) +
-  # ggrepel::geom_label_repel(data = filter(tmp_dist, Tsq >= Tsq_upperlimit), show.legend = FALSE) +
-  geom_vline(xintercept = Tsq_upperlimit, linetype = 2) +
+  # geom_point(data = filter(tmp_dist, Tsq >= Tsq_cutoff), aes(x = Tsq, y = Q_resid, colour = "red", label = id)) +
+  # ggrepel::geom_label_repel(data = filter(tmp_dist, Tsq >= Tsq_cutoff), show.legend = FALSE) +
+  geom_vline(xintercept = Tsq_cutoff, linetype = 2) +
   geom_hline(yintercept = quantile(abs(tmp_dist$Q_resid), .9975), linetype = 2) +
   scale_color_viridis_d(end = .4, direction = -1) +
   labs(x = "Hotelling's T-squared", y = "Q residuals") +
